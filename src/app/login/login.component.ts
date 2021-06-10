@@ -22,6 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+
+    document.getElementById('login-button').style.display = 'none';
+    document.getElementById('load-login-button').style.display = 'block';
+
     if(this.isRestaurantLogin) {
       this.restaurantLogin();
     }
@@ -33,6 +37,8 @@ export class LoginComponent implements OnInit {
     this.frsService.login(object).subscribe(
       data => {
         // this.userData =  data
+        document.getElementById('login-button').style.display = 'block';
+        document.getElementById('load-login-button').style.display = 'none';
         if(Object.keys(data).length == 1){
           this.toastr.error('Please check username and password again', 'Invalid Credentials')
         }
@@ -57,6 +63,8 @@ export class LoginComponent implements OnInit {
       },
       
       error => {
+        document.getElementById('login-button').style.display = 'block';
+        document.getElementById('load-login-button').style.display = 'none';
         console.log("Some error has occured"+JSON.stringify(error));
       }
       )
@@ -65,6 +73,8 @@ export class LoginComponent implements OnInit {
   }
 
   restaurantLogin() {
+    document.getElementById('login-button').style.display = 'none';
+    document.getElementById('load-login-button').style.display = 'block';
     let object = {
       "restId": this.restId,
       "password": this.password
@@ -73,6 +83,9 @@ export class LoginComponent implements OnInit {
     this.frsService.restLogin(object).subscribe(
       data => {
         // this.userData =  data
+        
+        document.getElementById('login-button').style.display = 'block';
+        document.getElementById('load-login-button').style.display = 'none';
         if(Object.keys(data).length == 1){
           alert('Invalid Credentials')
         }
@@ -87,6 +100,8 @@ export class LoginComponent implements OnInit {
       },
       
       error => {
+        document.getElementById('login-button').style.display = 'block';
+        document.getElementById('load-login-button').style.display = 'none';
         console.log("Some error has occured"+JSON.stringify(error));
       }
       )

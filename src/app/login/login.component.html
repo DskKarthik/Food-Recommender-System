@@ -45,7 +45,11 @@
                             </div> -->
                         </div>
 
-                        <button type="submit" [disabled]="!LoginForm.valid" (click)="login()" class="default-btn">Login</button>
+                        <button type="submit" [disabled]="!LoginForm.valid" (click)="login()" class="default-btn" id='login-button'>Login</button>
+                        <button class="default-btn" type="button" disabled style="display: none;" id="load-login-button">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Logging in...
+                          </button>
 
                         <div style="text-align: center;">
                             <br>

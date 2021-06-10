@@ -70,6 +70,11 @@ export class FrsDataService {
     return myResponse;
   }
 
+  public createDish(data): any{
+    let myResponse = this._http.post(this.baseUrl+ '/addDish', data)
+    return myResponse
+  }
+
   public getRestaurants(data): any{
     let myResponse = this._http.get(this.baseUrl + '/getRestaurants?city=' + data);
     return myResponse;
@@ -122,6 +127,21 @@ export class FrsDataService {
     return myResponse
   }
 
+  public updateDishRating(data): any{
+    let myResponse = this._http.post(this.baseUrl+ '/updateRating', data)
+    return myResponse
+  }
+
+  public getTrendingAndPopularDishes(city): any{
+    let myResponse = this._http.get(this.baseUrl+ '/getPopularTrending/'+city)
+    return myResponse
+  }
+
+  public getUserRecommendations(username): any{
+    let myResponse = this._http.get(this.baseUrl+ '/userRecommendations/'+username)
+    return myResponse
+  }
+
   public restaurants = [
     {
       "name": "Rest 1",
@@ -148,72 +168,5 @@ export class FrsDataService {
     }
 
   ]
-
-  // public productArray = [
-  //   {
-  //     "name": "Dish 1",
-  //     "restId": 101,
-  //     "dishId": 20,
-  //     "actual cost": "200",
-  //     "discounted price": "150",
-  //     "rating": 5
-  //   },
-
-  //   {
-  //     "name": "Dish 2",
-  //     "restId": 102,
-  //     "dishId": 21,
-  //     "actual cost": "400",
-  //     "discounted price": "375",
-  //     "rating": 4
-  //   },
-
-  //   {
-  //     "name": "Dish 3",
-  //     "restId": 102,
-  //     "dishId": 25,
-  //     "actual cost": "300",
-  //     "discounted price": "200",
-  //     "rating": 3
-  //   },
-
-  //   {
-  //     "name": "Dish 4",
-  //     "actual cost": "450",
-  //     "restId": 105,
-  //     "dishId": 40,
-  //     "discounted price": "300",
-  //     "rating": 4
-  //   }
-  // ]
-
-  // public productArray2 = [
-  //   {
-  //     "name": "Popular Dish 1",
-  //     "actual cost": "200",
-  //     "discounted price": "150",
-  //     "rating": 5
-  //   },
-
-  //   {
-  //     "name": "Polular Dish 2",
-  //     "actual cost": "400",
-  //     "discounted price": "375",
-  //     "rating": 4
-  //   },
-
-  //   {
-  //     "name": "Popular Dish 3",
-  //     "actual cost": "300",
-  //     "discounted price": "200",
-  //     "rating": 3
-  //   },
-
-  //   {
-  //     "name": "Popular Dish 4",
-  //     "actual cost": "450",
-  //     "discounted price": "300",
-  //     "rating": 4
-  //   }
-  // ]
+  
 }

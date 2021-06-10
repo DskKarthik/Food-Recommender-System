@@ -133,8 +133,6 @@ public orderStatus: string = '0'
     "restName":this.arr[0].restName
   }
 
-  alert(this.orderDetails.totalCost)
-
 
   for(let i=0; i<this.arr.length; i++)
   {
@@ -143,8 +141,7 @@ public orderStatus: string = '0'
       "dishId": this.arr[i].dishId,
       "quantity": this.arr[i].quantity,
       "dishName": this.arr[i].dishName,
-      "dishPrice": this.arr[i].dishPrice,
-      "restName": this.arr[i].restName,
+      "dishPrice": this.arr[i].dishPrice
     }
     this.orderDishes.push(orderDish)
   }
@@ -155,6 +152,7 @@ public orderStatus: string = '0'
     }
     
     let someData = await this.frsService.updateOrder(object)
+    this.toastr.success('', 'Order Placed Successfully !')
     console.log(JSON.stringify(object))
       sessionStorage.setItem('cartArray','[]');
       sessionStorage.setItem('cartCount','0');
@@ -166,9 +164,6 @@ public orderStatus: string = '0'
   }
 
   updateCart() {
-
-    // for i in range(arr.length):
-    //   this.arr[i].total = arr[i].dishPrice*quantity
     for(let i=0; i<this.arr.length; i++)
     {
       let quant = (<HTMLInputElement>document.getElementById('quantity'+i.toString())).value
@@ -178,11 +173,6 @@ public orderStatus: string = '0'
 
     this.subTotal();
     sessionStorage.setItem('cartArray', JSON.stringify(this.arr));
-
-    // alert("1. " + (<HTMLInputElement>document.getElementById('quantity0')).value + "2. " + (<HTMLInputElement>document.getElementById('quantity1')).value);
-    // alert("1. " + document.querySelector('input')[0].value; )
-    // document.querySelector('input')[0].value;
-    // document.querySelector('input')[1].value;
   }
 
   subTotal(){
@@ -196,17 +186,6 @@ public orderStatus: string = '0'
   }
 
   onDelete(dishId){
-    // alert(dishId)
-    // let new_arr = []
-    // for(let i=0; i<this.arr.length; i++)
-    // {
-    //   if(this.arr[i].dishId == dishId)
-    //   {}
-    //   else{
-    //     new_arr.push(this.arr[i])
-    //   }
-    // }
-    // this.arr = new_arr
 
     for(let i=0; i<this.arr.length; i++)
     {

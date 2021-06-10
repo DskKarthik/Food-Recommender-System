@@ -22,7 +22,9 @@ numSequence(n: number): Array<number> {
 
   public selected_city = "Hyderabad";
   public restList: any = [];
+  public restCount: number;
   public searchList: any = []
+  public searchCount: number;
   public query: string;
   public isSearch: boolean = false;
   public arr = []
@@ -35,6 +37,7 @@ numSequence(n: number): Array<number> {
     this.frsService.getRestaurants(city).subscribe(
       data => {
         this.restList =  data["Restaurant details"];
+        this.restCount = this.restList.length
       //   for(let key in this.restList){
       //   if(this.restList.hasOwnProperty(key)){
       //     this.arr.push(this.restList[key]);
@@ -77,11 +80,16 @@ numSequence(n: number): Array<number> {
       if(this.restList[i].restName.toString().toLowerCase().includes(this.query.toLowerCase()))
       {
         this.searchList.push(this.restList[i])
+        this.searchCount = this.searchList.length
       }
 
     }
     console.log(this.searchList)
     this.isSearch = true
+  }
+
+  setRestaurantName(restName){
+    sessionStorage.setItem('restName', restName)
   }
 
 }

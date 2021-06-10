@@ -17,14 +17,22 @@ export class DishesComponent implements OnInit {
   }
 
   public restId;
+  public restName;
   public dishList;
-
+  public dishCount;
 
   ngOnInit(): void {
+
+    if(sessionStorage.getItem('restName') !=null)
+      this.restName = sessionStorage.getItem('restName')
+    else
+      this.restName = "Restaurant Name"
+    
     this.restId = this._route.snapshot.paramMap.get('restId');
     this.frsService.getDishes(this.restId).subscribe(
       data => {
-        this.dishList =  data
+        this.dishList =  data 
+        this.dishCount = this.dishList.length
       //   for(let key in this.restList){
       //   if(this.restList.hasOwnProperty(key)){
       //     this.arr.push(this.restList[key]);

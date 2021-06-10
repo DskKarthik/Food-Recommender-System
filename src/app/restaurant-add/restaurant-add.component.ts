@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FrsDataService } from '../frs-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-restaurant-add',
@@ -23,7 +24,7 @@ export class RestaurantAddComponent implements OnInit {
   public pincode: number;
   public rating = 5;
 
-  constructor(public frsService: FrsDataService) { }
+  constructor(public frsService: FrsDataService, public toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -58,10 +59,13 @@ export class RestaurantAddComponent implements OnInit {
           this.frsService.createRestaurant(object).subscribe(
             data => {
               console.log(data);
+              window.location.reload()
+              this.toastr.success('Congrats!', 'Restaurant'+ object.restName+ 'Added successfully :)')
             },
             
             error => {
               console.log("Some error has occured"+JSON.stringify(error));
+              this.toastr.error('The restaurant ID already exists.', 'Error')
             }
           )
 

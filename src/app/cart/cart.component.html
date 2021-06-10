@@ -18,7 +18,7 @@
                         <tr>
                             <td class="product-thumbnail">
                                 <a routerLink="/products-details">
-                                    <img src="assets/img/shop/shop1.jpg" alt="item">
+                                    <img src="assets/img/dishes/dish2.jpg" alt="item">
                                 </a>
                             </td>
 
@@ -27,7 +27,7 @@
                             </td>
 
                             <td class="product-price">
-                                <span class="unit-amount">${{row.dishPrice}}</span>
+                                <span class="unit-amount">Rs. {{row.dishPrice}}</span>
                             </td>
 
                             <td class="product-quantity">
@@ -39,7 +39,7 @@
                             </td>
 
                             <td class="product-subtotal">
-                                <span class="subtotal-amount">${{row.totalCost}}</span>
+                                <span class="subtotal-amount">Rs. {{row.totalCost}}</span>
                                 <a routerLink="/cart" class="remove" (click)="onDelete(row.dishId)"><i class='bx bx-trash'></i></a>
                             </td>
                         </tr>
@@ -65,19 +65,19 @@
                 <ul>
                     <li>
                         Subtotal 
-                        <span>${{total}}</span>
+                        <span>Rs. {{total}}</span>
                     </li>
                     <li>
                         Total inclusive of Tax (5%): 
-                        <span>${{total + (5/100)*total}}</span>
+                        <span>Rs. {{total + (5/100)*total}}</span>
                     </li>
                     <li>
                         Shipping 
-                        <span>$30</span>
+                        <span>Rs. 30</span>
                     </li>
                     <li>
                         Total 
-                        <span><b>${{total + (5/100)*total+30}}</b></span>
+                        <span><b>Rs. {{total + (5/100)*total+30}}</b></span>
                     </li>
                 </ul>
 

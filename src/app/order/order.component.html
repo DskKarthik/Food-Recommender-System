@@ -40,10 +40,11 @@
             <div class="col-lg-12 col-md-12">
                 <div class="rainz-grid-sorting row align-items-center">
                     <div class="col-lg-6 col-md-6 result-count">
-                        <p>We found <span class="count">10</span> products available for you</p>
+                        <p *ngIf="!isSearch">We found <span class="count">{{restCount}}</span> restaurants for you</p>
+                        <p *ngIf="isSearch">We found <span class="count">{{searchCount}}</span> restaurants containing <i><b>{{query}}</b></i></p>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 ordering">
+                    <!-- <div class="col-lg-6 col-md-6 ordering">
                         <div class="select-box">
                             <label>Sort By:</label>
                             <div _ngcontent-klu-c83 class="nice-select">
@@ -57,7 +58,7 @@
                                 </ul>
                         </div>
                     </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="row"  *ngIf="!isSearch">
@@ -65,12 +66,12 @@
                         <div class="col-lg-4 col-md-4" *ngFor="let rest of restList">
                             <div class="single-products-box">
                                 <div class="products-image">
-                                    <a [routerLink]="['/restaurant',rest.restId]">
+                                    <a [routerLink]="['/restaurant',rest.restId]" (click)="setRestaurantName(rest.restName)">
                                         <img src="assets/img/restaurants/restaurant1.jpg" alt="image">
                                     </a>
                                 </div>
                                 <div class="products-content">
-                                    <h3><a  [routerLink]="['/restaurant', rest.restId]">{{ rest.restName }}</a></h3>
+                                    <h3><a  [routerLink]="['/restaurant', rest.restId]" (click)="setRestaurantName(rest.restName)">{{ rest.restName }}</a></h3>
                                     <div class="price">
                                         <p>{{rest.restSpeciality}}</p>
                                     </div>
@@ -92,12 +93,12 @@
                         <div class="col-lg-4 col-md-4" *ngFor="let rest of searchList">
                             <div class="single-products-box">
                                 <div class="products-image">
-                                    <a [routerLink]="['/restaurant',rest.restId]">
+                                    <a [routerLink]="['/restaurant',rest.restId]" (click)="setRestaurantName(rest.restName)">
                                         <img src="assets/img/restaurants/restaurant1.jpg" alt="image">
                                     </a>
                                 </div>
                                 <div class="products-content">
-                                    <h3><a  [routerLink]="['/restaurant', rest.restId]">{{ rest.restName }}</a></h3>
+                                    <h3><a  [routerLink]="['/restaurant', rest.restId]" (click)="setRestaurantName(rest.restName)" >{{ rest.restName }}</a></h3>
                                     <div class="price">
                                         <p>{{rest.restSpeciality}}</p>
                                     </div>

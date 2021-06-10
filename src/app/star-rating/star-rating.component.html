@@ -1,0 +1,15 @@
+<!-- <mat-card> -->
+    <div class="star-rating-container star-rating-animation" fxLayout="row" fxLayoutAlign="start center" >
+  
+        <div *ngIf="enableClick">
+            <div *ngFor="let star of stars" [ngClass]="[star.class]" (click)="selectStar(star.id)">
+                <mat-icon>{{star.icon}}</mat-icon>
+            </div>
+        </div>
+        <div *ngIf="!enableClick">
+            <div *ngFor="let star of stars" [ngClass]="[star.class]">
+                <mat-icon>{{star.icon}}</mat-icon>
+            </div>
+        </div>
+    </div>
+  <!-- </mat-card> -->

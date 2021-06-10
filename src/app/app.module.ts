@@ -30,6 +30,9 @@ import { RestaurantStatsComponent } from './restaurant-stats/restaurant-stats.co
 import { HttpClientModule } from '@angular/common/http';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ToastrModule } from 'ngx-toastr';
+import { TeamComponent } from './team/team.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+import { StarRatingModule } from './star-rating/star-rating.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,8 @@ import { ToastrModule } from 'ngx-toastr';
     RestaurantAdminComponent,
     DishAddComponent,
     RestaurantStatsComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatTabsModule,
     FormsModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    StarRatingModule
   ],
   providers: [FrsDataService],
   bootstrap: [AppComponent]

@@ -49,12 +49,13 @@ def registerDriver(data):
 
     return {"Message": f"Driver {data['First_name']} {data['Last_Name']} registered successfully!"}
 
-def addDish(dish_data, tagsArray):
+def addDish(dish_data):
 
     conn = mysqlcon.connect(host= "localhost", user = "root", password = "mysql@1234")
     cur = conn.cursor(buffered=True)
 
     cur.execute('use food_delivery_app')
+
     cur.callproc('updateDishTable', list(dish_data.values()))
     
     # for tag in tagsArray:
@@ -70,7 +71,7 @@ def addDish(dish_data, tagsArray):
     conn.commit()
     conn.close()
 
-    return {"Message": f"Dish {dish_data['Dish_Name']} updated successfully!"}
+    return {"Message": f"Dish {dish_data['dishName']} updated successfully!"}
 
 def getRestaurants(city):
 
@@ -150,14 +151,23 @@ def getAdminStats():
     cur.callproc('adminStats')
     for result in cur.stored_results():
         stats = result.fetchall()
-    
+    print(stats)
     adminStats = dict()
     adminStats['restCount'] = stats[0][0]
     adminStats['userCount'] = stats[0][1]
     adminStats['orderCount'] = stats[0][2]
-    adminStats['dishesCount'] = int(stats[0][3])
-    adminStats['turnover'] = stats[0][4]
-    adminStats['profit'] = stats[0][5]
+    if stats[0][3] is None:
+        adminStats['dishesCount'] = 0
+    else:
+        adminStats['dishesCount'] = int(stats[0][3])
+    if stats[0][4] is None:
+        adminStats['turnover'] = 0
+    else:
+        adminStats['turnover'] = stats[0][4]
+    if stats[0][5]==None:
+        adminStats['profit'] = 0
+    else:
+        adminStats['profit'] = stats[0][5]
     return adminStats
 
 def login(username, password):
@@ -222,9 +232,8 @@ def updateOrder(arr, orderDishes):
     cur = conn.cursor(buffered=True)
 
     cur.execute('use food_delivery_app')
-    print("Total", arr[5])
-    print("Type:",type(arr[5]))
-    cur.callproc('updateOrder', [arr[0], arr[1], arr[2], arr[3], arr[4], float(arr[5]), arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15],arr[16]])
+    print("Total", arr[16])
+    cur.callproc('updateOrder', [arr[0], arr[1], arr[2], arr[3], arr[4], float(arr[5]), arr[6], arr[7], arr[8], arr[9], arr[10], arr[11], arr[12], arr[13], arr[14], arr[15], arr[16]])
     
     username = arr[1]
     cur.callproc('getLatestOrder', [username])
@@ -235,7 +244,7 @@ def updateOrder(arr, orderDishes):
     print("Order Sucsessful")
     for dish in orderDishes:
         print(dish)
-        cur.callproc('updateOrderDishes', [orderId, dish['restId'], dish['dishId'], dish['quantity'], dish['dishName'], dish['dishPrice'], dish['restName']])
+        cur.callproc('updateOrderDishes', [orderId, dish['restId'], dish['dishId'], dish['quantity'], dish['dishName'], dish['dishPrice']])
     
     conn.commit()
     conn.close()
@@ -274,6 +283,7 @@ def getOrders(username):
             dishObj['quantity'] = dish[3]
             dishObj['dishName'] = dish[4]
             dishObj['dishPrice'] = dish[5]
+            dishObj['dishRating'] = dish[6]
             order_dishes.append(dishObj)
         
         ordersList.append({"orderDetails":ordersData, "orderDishes": order_dishes})
@@ -314,3 +324,100 @@ def getOrderStatus(orderId):
         data = result.fetchall()
     orderStatus = data[0][0]
     return orderStatus
+
+def updateRating(orderId, restId, dishId, rating):
+    conn = mysqlcon.connect(host= "localhost", user = "root", password = "mysql@1234")
+    cur = conn.cursor(buffered=True)
+    cur.execute('use food_delivery_app')
+
+    cur.callproc('updateDishRatings', [orderId, restId, dishId, rating])
+    conn.commit()
+    conn.close()
+    return {"Message": "Rating updated Successfully"}
+
+def getOrdersForRec(username):
+    conn = mysqlcon.connect(host= "localhost", user = "root", password = "mysql@1234")
+    cur = conn.cursor(buffered=True)
+    cur.execute('use food_delivery_app')
+
+    cur.callproc("getOrdersForRec", [username])
+    for result in cur.stored_results():
+        data = result.fetchall()
+    df = pd.DataFrame.from_records(data, columns=[ 'Order Id', 'Rest Id', 'Dish Id', 'Quantity', 'Dish Name', 'Price', 'Rating', 'Username'])
+    return df
+
+def get_similar_food(item_similarity_df, food_name,user_rating):
+    # print("Shape:",item_similarity_df.shape)
+    similar_score = item_similarity_df[food_name]*(user_rating-2.5) ## if the rating is below 3 then subtracting by mean rating i.e 2.5 will push them to negative side and vice versa.
+    similar_score = similar_score.sort_values(ascending=False)
+    
+    return similar_score
+
+def getUserOrdersForRec(username):
+    orders = getOrders(username)
+    ratingList = []
+    for order in orders:
+        ratingList.append(order['orderDishes'])
+    userDishRating= []
+    for order in ratingList:
+        for dishObj in order:
+            # print(dishObj)
+            userDishRating.append((dishObj['dishId'], dishObj['dishRating']))
+    return userDishRating
+
+def getRecommendations(username):
+    df = getOrdersForRec(username)
+    user_ratings = df.pivot_table(index=["Username"],columns=["Dish Id"], values="Rating")
+    user_ratings = user_ratings.fillna(0,axis=1)
+    item_similarity_df = user_ratings.corr(method='pearson')
+    food_name_ratings = getUserOrdersForRec(username)    # Dish ID and our rating
+    similar_foods = pd.DataFrame()
+
+    for food,rating in food_name_ratings:
+        similar_foods = similar_foods.append(get_similar_food(item_similarity_df,food,rating),ignore_index=True)
+    recommendations = similar_foods.sum().sort_values(ascending=False).head(4)
+    recommendations = list(recommendations.keys())
+    dishesList = getDishesList(recommendations)
+    return dishesList
+
+def getCityDishes(city):
+    conn = mysqlcon.connect(host= "localhost", user = "root", password = "mysql@1234")
+    cur = conn.cursor(buffered=True)
+    cur.execute('use food_delivery_app')
+
+    cur.callproc("getDishesOfCity", [city])
+    for result in cur.stored_results():
+        data = result.fetchall()
+    df = pd.DataFrame.from_records(data, columns=['Rest ID', 'Dish ID', 'Dish Name', 'Actual Price', 'Description', 'Dish Count', 'Discounted Price', 'Rating', 'Rest Name', 'Health Rating', 'Calories'])
+    trending_df = df.sort_values(['Dish Count', 'Rating'], ascending=False)
+    popular_df = df.sort_values(['Rating', 'Dish Count'], ascending=False)
+    health_df = df.sort_values(['Health Rating'], ascending=False)
+    health_df = health_df.sort_values(['Calories'])
+    
+    trending_list = list(trending_df.reset_index().head(6).T.to_dict().values())
+    popular_list = list(popular_df.reset_index().head(6).T.to_dict().values())
+    health_list = list(health_df.reset_index().head(4).T.to_dict().values())
+
+    return trending_list, popular_list, health_list
+
+def getDishesList(dishList):
+    conn = mysqlcon.connect(host= "localhost", user = "root", password = "mysql@1234")
+    cur = conn.cursor(buffered=True)
+    cur.execute('use food_delivery_app')
+
+    dishes = []
+    for dishId in dishList:
+        cur.callproc("getDishDetails", [dishId])
+        for result in cur.stored_results():
+            data = result.fetchall()
+        dishObj = dict()
+        dishObj['restId'] = data[0][0]
+        dishObj['dishId'] = data[0][1]
+        dishObj['dishName'] = data[0][2]
+        dishObj['actualPrice'] = data[0][3]
+        dishObj['DiscountPrice'] = data[0][6]
+        dishObj['rating'] = data[0][7]
+        dishObj['restName'] = data[0][8]
+        dishes.append(dishObj)
+
+    return dishes

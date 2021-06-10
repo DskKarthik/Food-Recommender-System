@@ -40,7 +40,6 @@
               "src/assets/css/boxicons.min.css",
               "src/assets/css/odometer.min.css",
               "node_modules/magnific-popup/dist/magnific-popup.css",
-              "src/styles.scss",
               "src/responsive.scss"
             ],
             "scripts": [

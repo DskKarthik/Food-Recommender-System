@@ -82,13 +82,16 @@
           </ul>
           <!-- <p class="card-text">1 x Biriyani, 2x Choclate Icecream</p> -->
           <ol class="list-group list-group-numbered">
-            <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let dish of order.orderDishes">
-              <div class="ms-2 me-auto">
+            <li class="list-group-item" *ngFor="let dish of order.orderDishes">
+                <div class="d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
                 <div class="fw-bold">{{dish.dishName}}</div>
                 <small *ngIf="dish.dishPrice!=null">Rs {{dish.dishPrice}}</small>
                 <small *ngIf="dish.dishPrice==null">Rs - </small>
               </div>
-              <span class="badge rounded-pill" style="background-color: coral;">{{dish.quantity}}</span>
+              <span class="badge rounded-pill" style="background-color: coral;">{{dish.quantity}}</span><br>
+            </div>
+              <app-star-rating [config]="dish" [rating]="dish.dishRating"></app-star-rating>
             </li>
           </ol>
           <p class="card-text">Order Total: Rs. {{order.orderDetails.orderTotal}}</p>

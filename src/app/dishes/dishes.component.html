@@ -4,10 +4,10 @@
 <ng-template #products>
     <section class="product-area pt-100 pb-100">
         <div class="container">
-            <h2>Restaurant Name</h2>
+            <h2>{{restName}}</h2>
             <div class="rainz-grid-sorting row align-items-center">
                 <div class="col-lg-6 col-md-6 result-count">
-                    <p>We found <span class="count">10</span> dishes for you</p>
+                    <p><span class="count">{{dishCount}}</span> dishes available.</p>
                 </div>
     
                 <div class="col-lg-6 col-md-6 ordering">
@@ -38,8 +38,8 @@
                             <div class="products-content">
                                 <h3><a [routerLink]="['/item-details', product.restId, product.dishId]"> {{ product.dishName }} </a></h3>
                                 <div class="price">
-                                    <span class="old-price">${{ product.dishActualCost }}</span>
-                                    <span class="new-price">${{ product.dishDiscCost }}</span>
+                                    <span class="old-price">Rs {{ product.dishActualCost }}</span>
+                                    <span class="new-price">Rs {{ product.dishDiscCost }}</span>
                                 </div>
                                 <div class = "star-rating">
                                     <span *ngFor="let n of numSequence(product.dishRating);"> 

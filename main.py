@@ -227,11 +227,12 @@ class Driver(Resource):
 class AddDish(Resource):
 
     def post(self):
-        data = request.get_json()
-        dish_data = data['dishData']
-        dish_tags = data['dishTags']
-        tagsArray = dish_tags.split(' ')
-        return db.addDish(dish_data, tagsArray)
+        data = dict(request.get_json())
+
+        # dish_data = data['dishData']
+        # dish_tags = data['dishTags']
+        # tagsArray = dish_tags.split(' ')
+        return db.addDish(data)
 
 class GetRestList(Resource):
 
@@ -320,6 +321,32 @@ class UpdateOrderStatus(Resource):
     status = data['status']
     return db.updateOrderStatus(orderId, status)
 
+class UpdateDishOrderRating(Resource):
+
+  def post(self):
+    data = request.get_json()
+    orderId = data['orderId']
+    restId = data['restId']
+    dishId = data['dishId']
+    rating = data['ratingValue']
+
+    return db.updateRating(orderId, restId, dishId, rating)
+
+class GetPopularAndTrendingDishes(Resource):
+
+  def get(self, city):
+    recommendations = dict()
+    trending_dishes, popular_dishes, health_dishes = db.getCityDishes(city)
+    recommendations['trending'] = trending_dishes
+    recommendations['popular'] = popular_dishes
+    recommendations['health'] = health_dishes
+    return recommendations
+
+class GetUserRecommendations(Resource):
+
+  def get(self, username):
+    return db.getRecommendations(username)
+
 api.add_resource(Order, '/order/<string:rest_ID>/<string:dish_ID>')
 api.add_resource(User_Orders, '/<string:username>/orders')
 api.add_resource(Test, '/getProductArray')
@@ -338,6 +365,9 @@ api.add_resource(GetOrders, '/getOrders/<string:username>')
 api.add_resource(GetLatestOrderId,  '/getLatestOrderId/<string:username>')
 api.add_resource(GetOrderStatus, '/getOrderStatus')
 api.add_resource(UpdateOrderStatus, '/updateOrderStatus')
+api.add_resource(UpdateDishOrderRating, '/updateRating')
+api.add_resource(GetPopularAndTrendingDishes, '/getPopularTrending/<string:city>')
+api.add_resource(GetUserRecommendations, '/userRecommendations/<string:username>')
 
 if __name__ == "__main__":
     app.run(debug=True)
