@@ -41,7 +41,7 @@ export class UserProfileComponent implements OnInit {
 
     // console.log(JSON.stringify(this.userDetails))
 
-    this.frsService.getOrders(this.userDetails.username).subscribe(
+    this.frsService.getOrders(this.userDetails._id).subscribe(
       data => {
       this.orders = data
       // this.setOrderStatusDisplay();

@@ -33,6 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { TeamComponent } from './team/team.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { StarRatingModule } from './star-rating/star-rating.module';
+import { UserStatsComponent } from './user-stats/user-stats.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { StarRatingModule } from './star-rating/star-rating.module';
     DishAddComponent,
     RestaurantStatsComponent,
     UserProfileComponent,
-    TeamComponent
+    TeamComponent,
+    UserStatsComponent
   ],
   imports: [
     BrowserModule,

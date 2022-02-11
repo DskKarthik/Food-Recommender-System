@@ -64,7 +64,7 @@ public orderStatus: string = '0'
 
   async updateOrderStatus()
   {
-    this.currentOrderId = await this.frsService.getLatestOrderId(this.userDetails.username);
+    this.currentOrderId = await this.frsService.getLatestOrderId(this.userDetails._id);
     console.log(this.currentOrderId);
     
     this.orderStatus = '1'
@@ -85,6 +85,7 @@ public orderStatus: string = '0'
             "status": this.orderStatus
           }
 
+
           setTimeout(() => {
             this.frsService.updateOrderStatus(object).subscribe(
               data => {
@@ -101,7 +102,7 @@ public orderStatus: string = '0'
 
   async onOrder(){
     
-    if(!this.frsService.userName && !this.frsService.restName)
+    if(!this.frsService.email && !this.frsService.restName)
     {
       this.toastr.info("Please Login to place Order", "Login Required")
       this.router.navigateByUrl('/login')
@@ -114,23 +115,33 @@ public orderStatus: string = '0'
 
 
   this.orderDetails = {
-    "restId": this.arr[0].restId,
-    "username": this.userDetails.username,
-    "actualCost": this.totalCost,
-    "tax": 0.05,
-    "discount": 0,
-    "totalCost": this.totalCost,
-    "orderDatetime":this.orderDatetime,
-    "driverId": 1001,
-    "orderStatus": '0',
-    "houseNo": this.userDetails.houseNo,
-    "locality": this.userDetails.locality,
-    "city": this.userDetails.city,
-    "state": this.userDetails.state,
-    "pincode": this.userDetails.pincode,
-    "deliveryRating": 5,
-    "deliveryFeedback": "Delivery on time.",
-    "restName":this.arr[0].restName
+
+    'restaurant_id' : this.arr[0]['restId'],
+    'user_id' : this.userDetails._id,
+    'dish_id' : this.arr[0].dishId,
+    'cost' : this.arr[0].cost,
+    'address' : 'Shiv Nadar University, Noida',
+    'rating' : 0,
+    "status" : 2
+
+
+    // "restId": this.arr[0].restId,
+    // "username": this.userDetails.username,
+    // "actualCost": this.totalCost,
+    // "tax": 0.05,
+    // "discount": 0,
+    // "totalCost": this.totalCost,
+    // "orderDatetime":this.orderDatetime,
+    // "driverId": 1001,
+    // "orderStatus": '0',
+    // "houseNo": this.userDetails.houseNo,
+    // "locality": this.userDetails.locality,
+    // "city": this.userDetails.city,
+    // "state": this.userDetails.state,
+    // "pincode": this.userDetails.pincode,
+    // "deliveryRating": 5,
+    // "deliveryFeedback": "Delivery on time.",
+    // "restName":this.arr[0].restName
   }
 
 
@@ -151,7 +162,7 @@ public orderStatus: string = '0'
       "orderDishes": this.orderDishes
     }
     
-    let someData = await this.frsService.updateOrder(object)
+    let someData = await this.frsService.updateOrder(this.orderDetails)
     this.toastr.success('', 'Order Placed Successfully !')
     console.log(JSON.stringify(object))
       sessionStorage.setItem('cartArray','[]');
@@ -159,7 +170,7 @@ public orderStatus: string = '0'
       this.frsService.cartArray = [];
       this.frsService.cartCount = 0;
 
-    this.updateOrderStatus();
+    // this.updateOrderStatus();
   }
   }
 

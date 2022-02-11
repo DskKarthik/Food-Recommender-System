@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     sessionStorage.removeItem('userDetails');
     sessionStorage.removeItem('restDetails')
-    this.frsService.userName = undefined;
+    this.frsService.email = undefined;
     this.frsService.restName = undefined;
     this.frsService.isAdmin = false;
     this.frsService.isRestaurant = false;

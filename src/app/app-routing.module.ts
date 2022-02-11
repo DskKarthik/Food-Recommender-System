@@ -20,6 +20,7 @@ import { RestaurantStatsComponent } from './restaurant-stats/restaurant-stats.co
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { TeamComponent } from './team/team.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { UserStatsComponent } from './user-stats/user-stats.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent},
@@ -29,7 +30,7 @@ const routes: Routes = [
   {path: 'signup', component: RegisterComponent},
   {path: 'order', component: OrderComponent},
   {path: 'restaurant/:restId', component: DishesComponent},
-  {path: 'item-details/:restId/:dishId', component: ProductDetailsComponent},
+  {path: 'item-details/:dishId', component: ProductDetailsComponent},
   {path: 'cart', component: CartComponent},
   {path: 'admin', component: AdminComponent},
   {path: 'restaurant-add', component: RestaurantAddComponent},
@@ -40,6 +41,7 @@ const routes: Routes = [
   {path: 'restaurant-stats', component: RestaurantStatsComponent},
   {path: 'user-profile', component: UserProfileComponent},
   {path: 'about-us', component: TeamComponent},
+  {path: 'user-stats', component: UserStatsComponent},
   {path: '**', component: NotFoundComponent}
 ];
 

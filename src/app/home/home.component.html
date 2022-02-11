@@ -97,23 +97,24 @@
                 </div>
             </div>
 
-                <h2 *ngIf="userName"> Dishes Hand picked for you {{userName}} </h2>
-                <div class="row" *ngIf="userName">
-                    <div class="col-lg-4 col-md-6" *ngFor="let product of userRecommendations">
+                <h2 *ngIf="user_id"> Dishes Hand picked for you {{name}} </h2>
+                <div class="row" *ngIf="user_id">
+                    <div class="col-lg-4 col-md-6" *ngFor="let product of user_based">
                         <div class="single-products-box">
                             <div class="products-image">
-                                <a [routerLink]="['/item-details',product.restId, product.dishId]">
-                                    <img src="assets/img/dishes/dish2.jpg" alt="image">
+                                <a [routerLink]="['/item-details', product._id]">
+                                    <img src= {{product.image_url}} alt="image">
+                                    <!-- <img src= "assets/img/dishes/dish2.jpg" alt="image"> -->
                                 </a>
                             </div>
                             <div class="products-content">
-                                <h3><a [routerLink]="['/item-details',product.restId,product.dishId]"> {{ product.dishName }} <br> <small>{{product['restName']}}</small></a></h3>
+                                <h3><a [routerLink]="['/item-details', product.dishId]"> {{ product.name }} <br> <small>{{product['restName']}}</small></a></h3>
                                 <div class="price">
-                                    <span class="old-price">Rs. {{ product['actualPrice'] }}</span>
-                                    <span class="new-price">Rs. {{ product['DiscountPrice'] }}</span>
+                                    <span class="old-price">Rs. {{ product['cost'] }}</span>
+                                    <span class="new-price">Rs. {{ product['discount_cost'] }}</span>
                                 </div>
                                 <div class = "star-rating">
-                                    <span *ngFor="let n of numSequence(product.rating);"> 
+                                    <span *ngFor="let n of numSequence(roundRating(product.aver_rate));"> 
                                         <i class='bx bxs-star'></i>
                                     </span>
                                 </div>
@@ -124,23 +125,23 @@
                 </div>
                 <br><br>
 
-                <h2>Try out Healthy Dishes..</h2>
+                <h2 *ngIf="user_id">Try out Healthy Dishes..</h2>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6" *ngFor="let product of healthArray">
+                    <div class="col-lg-4 col-md-6" *ngFor="let product of health_based">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a [routerLink]="['/item-details',product['Rest Id'], product['Dish Id']]">
-                                    <img src="assets/img/dishes/dish2.jpg" alt="image">
+                                    <img src={{product.image_url}} alt="image">
                                 </a>
                             </div>
                             <div class="products-content">
-                                <h3><a [routerLink]="['/item-details',product['Rest Id'], product['Dish Id']]"> {{ product['Dish Name']}} <br> <small>{{product['Rest Name']}}</small></a></h3>
+                                <h3><a [routerLink]="['/item-details', product.dishId]"> {{ product.name }} <br> <small>{{product['restName']}}</small></a></h3>
                                 <div class="price">
-                                    <span class="old-price">Rs. {{ product['Actual Price'] }}</span>
-                                    <span class="new-price">Rs. {{ product['Discounted Price'] }}</span>
+                                    <span class="old-price">Rs. {{ product['cost'] }}</span>
+                                    <span class="new-price">Rs. {{ product['discount_cost'] }}</span>
                                 </div>
                                 <div class = "star-rating">
-                                    <span *ngFor="let n of numSequence(product.Rating);"> 
+                                    <span *ngFor="let n of numSequence(roundRating(product.aver_rate));"> 
                                         <i class='bx bxs-star'></i>
                                     </span>
                                 </div>
@@ -148,26 +149,26 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
                 <br><br>
 
                 <h2>Trending Dishes Near You </h2>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6" *ngFor="let product of trendingArray">
+                    <div class="col-lg-4 col-md-6" *ngFor="let product of trending">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a [routerLink]="['/item-details',product.restId,product.dishId]">
-                                    <img src="assets/img/dishes/dish2.jpg" alt="image">
+                                    <img src={{product.image_url}} alt="image">
                                 </a>
                             </div>
                             <div class="products-content">
-                                <h3><a [routerLink]="['/item-details',product.restId,product.dishId]"> {{ product['Dish Name']}} <br> <small>{{product['Rest Name']}}</small> </a></h3>
+                                <h3><a [routerLink]="['/item-details', product.dishId]"> {{ product.name }} <br> <small>{{product['restName']}}</small></a></h3>
                                 <div class="price">
-                                    <span class="old-price">Rs. {{ product['Actual Price'] }}</span>
-                                    <span class="new-price">Rs. {{ product['Discounted Price'] }}</span>
+                                    <span class="old-price">Rs. {{ product['cost'] }}</span>
+                                    <span class="new-price">Rs. {{ product['discount_cost'] }}</span>
                                 </div>
                                 <div class = "star-rating">
-                                    <span *ngFor="let n of numSequence(product.Rating);"> 
+                                    <span *ngFor="let n of numSequence(roundRating(product.aver_rate));"> 
                                         <i class='bx bxs-star'></i>
                                     </span>
                                 </div>
@@ -180,21 +181,21 @@
 
                 <h2>Popular Dishes Around You</h2>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6" *ngFor="let product of popularArray">
+                    <div class="col-lg-4 col-md-6" *ngFor="let product of popular">
                         <div class="single-products-box">
                             <div class="products-image">
                                 <a [routerLink]="['/item-details',product.restId,product.dishId]">
-                                    <img src="assets/img/dishes/dish2.jpg" alt="image">
+                                    <img src={{product.image_url}} alt="image">
                                 </a>
                             </div>
                             <div class="products-content">
-                                <h3><a [routerLink]="['/item-details',product.restId,product.dishId]"> {{ product['Dish Name']}} <br> <small>{{product['Rest Name']}}</small> </a></h3>
+                                <h3><a [routerLink]="['/item-details', product.dishId]"> {{ product.name }} <br> <small>{{product['restName']}}</small></a></h3>
                                 <div class="price">
-                                    <span class="old-price">Rs. {{ product['Actual Price'] }}</span>
-                                    <span class="new-price">Rs. {{ product['Discounted Price'] }}</span>
+                                    <span class="old-price">Rs. {{ product['cost'] }}</span>
+                                    <span class="new-price">Rs. {{ product['discount_cost'] }}</span>
                                 </div>
                                 <div class = "star-rating">
-                                    <span *ngFor="let n of numSequence(product.Rating);"> 
+                                    <span *ngFor="let n of numSequence(roundRating(product.aver_rate));"> 
                                         <i class='bx bxs-star'></i>
                                     </span>
                                 </div>

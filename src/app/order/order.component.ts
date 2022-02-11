@@ -28,9 +28,11 @@ numSequence(n: number): Array<number> {
   public query: string;
   public isSearch: boolean = false;
   public arr = []
+  public showLoader = true
 
   ngOnInit(): void {
     this.getRestaurantsMethod(this.selected_city);
+    this.showLoader = false;
   }
 
   getRestaurantsMethod(city) {
@@ -38,18 +40,24 @@ numSequence(n: number): Array<number> {
       data => {
         this.restList =  data["Restaurant details"];
         this.restCount = this.restList.length
+        
       //   for(let key in this.restList){
       //   if(this.restList.hasOwnProperty(key)){
       //     this.arr.push(this.restList[key]);
       //   }
       // }
       //  console.log(typeof this.arr)
+        // console.log(this.roundRating(this.restList[0].Rating))
       },
       
       error => {
         console.log("Some error has occured"+JSON.stringify(error));
       }
     )
+  }
+
+  roundRating(rating){
+    return Math.round(rating)
   }
 
   onTabChanged($event) {
@@ -72,6 +80,11 @@ numSequence(n: number): Array<number> {
     this.getRestaurantsMethod(this.tabChangeCity);
   }
 
+  // setLoaderFalse(){
+  //   this.showLoader = false;
+  //   document.getElementById('loading').style.display = 'none';
+  // }
+
   onSearch(){
     this.toastr.success("'"+this.query+"'", 'Restaurants containing')
     this.searchList = []
@@ -89,6 +102,7 @@ numSequence(n: number): Array<number> {
   }
 
   setRestaurantName(restName){
+    console.log(restName)
     sessionStorage.setItem('restName', restName)
   }
 

@@ -47,4 +47,8 @@ export class DishesComponent implements OnInit {
     )
   }
 
+  roundRating(rating){
+    return Math.round(rating)
+  }
+
 }

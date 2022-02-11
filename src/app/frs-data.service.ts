@@ -12,7 +12,8 @@ export class FrsDataService {
 
   public cartArray = [];
   public cartCount: number = 0;
-  public userName: any;
+  public email: any;
+  public name: any;
   public restName: any;
   public isAdmin: boolean = false;
   public isRestaurant: boolean = false;
@@ -30,7 +31,9 @@ export class FrsDataService {
 
   public postLoginActivities() {
     if(sessionStorage.getItem('userDetails') != null) {
-      this.userName = JSON.parse(sessionStorage.getItem('userDetails')).username;
+      this.email = JSON.parse(sessionStorage.getItem('userDetails')).Email;
+      this.name = JSON.parse(sessionStorage.getItem('userDetails')).Name;
+
       let p = JSON.parse(sessionStorage.getItem('userDetails')).privelege
       if(p=="A")
       {
@@ -85,8 +88,8 @@ export class FrsDataService {
     return myResponse;
   }
 
-  public getDishDetails(restId, dishId): any{
-    let myResponse = this._http.get(this.baseUrl + '/item-details/' + restId + '/' + dishId);
+  public getDishDetails(dishId): any{
+    let myResponse = this._http.get(this.baseUrl + '/item-details/' + dishId);
     return myResponse;
   }
 
@@ -107,13 +110,13 @@ export class FrsDataService {
     return myResponse;
   }
 
-  public getOrders(username): any{
-    let myResponse = this._http.get(this.baseUrl+ '/getOrders/'+username)
+  public getOrders(user_id): any{
+    let myResponse = this._http.get(this.baseUrl+ '/getOrders/'+user_id)
     return myResponse;
   }
 
-  public async getLatestOrderId(username): Promise<any>{
-    let myResponse = await this._http.get(this.baseUrl+ '/getLatestOrderId/'+username).toPromise();
+  public async getLatestOrderId(user_id): Promise<any>{
+    let myResponse = await this._http.get(this.baseUrl+ '/getLatestOrderId/'+user_id).toPromise();
     return myResponse;
   }
   
@@ -137,8 +140,13 @@ export class FrsDataService {
     return myResponse
   }
 
-  public getUserRecommendations(username): any{
-    let myResponse = this._http.get(this.baseUrl+ '/userRecommendations/'+username)
+  public getUserRecommendations(user_id): any{
+    let myResponse = this._http.get(this.baseUrl+ '/userRecommendations/'+user_id)
+    return myResponse
+  }
+
+  public getUserStats(user_id): any{
+    let myResponse = this._http.get(this.baseUrl+ '/getUserStats/'+user_id)
     return myResponse
   }
 

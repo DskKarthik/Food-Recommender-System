@@ -55,7 +55,6 @@ export class StarRatingComponent implements OnInit {
 
   selectStar(value): void{
 
-    console.log(this.config);
     // prevent multiple selection
     if ( this.selectedRating === 0){
 
@@ -74,10 +73,11 @@ export class StarRatingComponent implements OnInit {
         return star;
       });
 
-    }
+    }8
 
     this.selectedRating = value;
-    this.config.ratingValue = this.selectedRating;
+    this.config.rating = this.selectedRating;
+    console.log('config: '+this.config);
 
     this.frsService.updateDishRating(this.config).subscribe(
       data => {

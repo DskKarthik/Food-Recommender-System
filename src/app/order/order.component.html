@@ -40,9 +40,14 @@
             <div class="col-lg-12 col-md-12">
                 <div class="rainz-grid-sorting row align-items-center">
                     <div class="col-lg-6 col-md-6 result-count">
+                        <p *ngIf="showLoader">Your restaurants are on the way...</p>
                         <p *ngIf="!isSearch">We found <span class="count">{{restCount}}</span> restaurants for you</p>
                         <p *ngIf="isSearch">We found <span class="count">{{searchCount}}</span> restaurants containing <i><b>{{query}}</b></i></p>
                     </div>
+                    
+                    <!-- <div class="spinner-border" id="loading" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div> -->
 
                     <!-- <div class="col-lg-6 col-md-6 ordering">
                         <div class="select-box">
@@ -66,17 +71,17 @@
                         <div class="col-lg-4 col-md-4" *ngFor="let rest of restList">
                             <div class="single-products-box">
                                 <div class="products-image">
-                                    <a [routerLink]="['/restaurant',rest.restId]" (click)="setRestaurantName(rest.restName)">
+                                    <a [routerLink]="['/restaurant',rest._id]" (click)="setRestaurantName(rest.Name)">
                                         <img src="assets/img/restaurants/restaurant1.jpg" alt="image">
                                     </a>
                                 </div>
                                 <div class="products-content">
-                                    <h3><a  [routerLink]="['/restaurant', rest.restId]" (click)="setRestaurantName(rest.restName)">{{ rest.restName }}</a></h3>
+                                    <h3><a  [routerLink]="['/restaurant', rest._id]" (click)="setRestaurantName(rest.Name)">{{ rest.Name }}</a></h3>
                                     <div class="price">
-                                        <p>{{rest.restSpeciality}}</p>
+                                        <p> Restaurant Speciality</p>
                                     </div>
                                     <div class = "star-rating">
-                                        <span *ngFor="let n of numSequence(rest.restRating);"> 
+                                        <span *ngFor="let n of numSequence(roundRating(rest.Rating));"> 
                                             <i class='bx bxs-star'></i>
                                         </span>
                                     </div>
@@ -93,17 +98,17 @@
                         <div class="col-lg-4 col-md-4" *ngFor="let rest of searchList">
                             <div class="single-products-box">
                                 <div class="products-image">
-                                    <a [routerLink]="['/restaurant',rest.restId]" (click)="setRestaurantName(rest.restName)">
+                                    <a [routerLink]="['/restaurant',rest['._id']]" (click)="setRestaurantName(rest['Name'])">
                                         <img src="assets/img/restaurants/restaurant1.jpg" alt="image">
                                     </a>
                                 </div>
                                 <div class="products-content">
-                                    <h3><a  [routerLink]="['/restaurant', rest.restId]" (click)="setRestaurantName(rest.restName)" >{{ rest.restName }}</a></h3>
+                                    <h3><a  [routerLink]="['/restaurant', rest['._id']]" (click)="setRestaurantName(rest.Name)" >{{ rest.Name }}</a></h3>
                                     <div class="price">
-                                        <p>{{rest.restSpeciality}}</p>
+                                        <p> Speciality </p>
                                     </div>
                                     <div class = "star-rating">
-                                        <span *ngFor="let n of numSequence(rest.restRating);"> 
+                                        <span *ngFor="let n of numSequence(roundRating(rest.Rating));"> 
                                             <i class='bx bxs-star'></i>
                                         </span>
                                     </div>
@@ -114,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

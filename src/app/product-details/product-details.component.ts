@@ -18,11 +18,10 @@ export class ProductDetailsComponent implements OnInit {
   constructor(public _route: ActivatedRoute, public router: Router, public frsService: FrsDataService, public toastr: ToastrService) { }
 
   ngOnInit(): void {
-	  this.restId = this._route.snapshot.paramMap.get('restId');
 	  this.dishId = this._route.snapshot.paramMap.get('dishId');
-	//   alert("Rest ID: " + this.restId + " " + "Dish ID: " + this.dishId);
+	//   alert("Dish ID: " + this.dishId);
 
-	  this.frsService.getDishDetails(this.restId, this.dishId).subscribe(
+	  this.frsService.getDishDetails(this.dishId).subscribe(
 		data => {
 		  this.dishData =  data
 		//   for(let key in this.restList){
@@ -61,13 +60,14 @@ export class ProductDetailsComponent implements OnInit {
 	  // document.getElementById()
 	  let cartArray = JSON.parse(sessionStorage.getItem('cartArray'));
 	  let cartData = {
-		  "dishId": this.dishData.dishId,
-		  "dishName": this.dishData.dishName,
-		  "dishPrice": this.dishData.dishDiscCost,
-		  "restId": this.dishData.restId,
+		  "dishId": this.dishData._id,
+		  "dishName": this.dishData.name,
+		  "dishPrice": this.dishData.discount_cost,
+		  "restId": this.dishData['Restaurant Id'],
 		  "restName": this.dishData.restName,
 		  "quantity": 1,
-		  "totalCost": this.dishData.dishDiscCost
+		  "totalCost": this.dishData.discount_cost,
+		  "image_url" : this.dishData.image_url
 	  }
 	let inCart = false;
 	if(cartArray == null) {
@@ -84,6 +84,18 @@ export class ProductDetailsComponent implements OnInit {
 	}
 	if(!inCart)
 	{
+
+		if (cartArray.length !=0)
+		{
+			if (cartArray.length >= 1)
+			{
+				document.getElementById('cart-button').style.display = 'block';
+				document.getElementById('load-cart-button').style.display = 'none';
+				this.toastr.error('Only single dish per order is allowed', 'Alert')
+				return;
+			}
+		}
+
 		if (cartArray.length !=0)
 		{
 			let lastRest = cartArray[cartArray.length-1].restId

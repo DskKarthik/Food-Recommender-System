@@ -15,11 +15,12 @@ export class HomeComponent implements OnInit {
   public productArray;
   public productArray2;
   public city = "Hyderabad";
-  public trendingArray;
-  public popularArray;
-  public healthArray;
-  public userRecommendations;
-  public userName;
+  public trending;
+  public popular;
+  public health_based;
+  public user_based;
+  public user_id;
+  public name;
 
   public tabChangeCity = "Hyderabad";
   public selected_city = "Hyderabad";
@@ -27,37 +28,52 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 
     if((sessionStorage.getItem('userDetails')!=null))
-      this.userName = JSON.parse(sessionStorage.getItem('userDetails')).username;
+      this.user_id = JSON.parse(sessionStorage.getItem('userDetails'))._id;
     else
-      this.userName=null
+      this.user_id=null
+    
+    if((sessionStorage.getItem('userDetails')!=null))
+      this.name = JSON.parse(sessionStorage.getItem('userDetails')).Name;
+    else
+      this.name=null
 
-    this.frsService.getTrendingAndPopularDishes(this.selected_city).subscribe(
-      data => {
-        this.trendingArray = data['trending']
-        this.popularArray = data['popular']
-        this.healthArray = data['health']
-        console.log(data);
-      },
+      let userId = this.user_id
+      if(!this.user_id)
+        userId = 0
+      this.frsService.getUserRecommendations(userId).subscribe(
+        data => {
+
+          if(this.user_id){
+          this.user_based = data['user_based']
+          this.health_based = data['health_based']
+          }
+          this.popular = data['popular']
+          this.trending = data['trending_list']
+          console.log(data);
+        },
+        
+        error => {
+          console.log("Some error has occured"+JSON.stringify(error.errorMessage));
+        }
+      )
+
+    // this.frsService.getTrendingAndPopularDishes(this.selected_city).subscribe(
+    //   data => {
+    //     this.trendingArray = data['trending']
+    //     // this.popularArray = this.userRecommendations['popular']
+    //     this.healthArray = data['health']
+    //     // console.log(data);
+    //   },
       
-      error => {
-        console.log("Some error has occured"+JSON.stringify(error.errorMessage));
-      }
-    )
+    //   error => {
+    //     console.log("Some error has occured"+JSON.stringify(error.errorMessage));
+    //   }
+    // )
 
-    if(this.userName)
-    {
-    this.frsService.getUserRecommendations(this.userName).subscribe(
-      data => {
-        this.userRecommendations = data
-        console.log(data);
-      },
-      
-      error => {
-        console.log("Some error has occured"+JSON.stringify(error.errorMessage));
-      }
-    )
-    }
+  }
 
+  roundRating(rating){
+    return Math.round(rating)
   }
 
   onTabChanged($event) {
@@ -77,23 +93,23 @@ export class HomeComponent implements OnInit {
     }
 
     console.log(this.tabChangeCity);
-    this.getDishesMethod(this.tabChangeCity);
+    // this.getDishesMethod(this.tabChangeCity);
   }
 
-  public getDishesMethod(city){
-    this.frsService.getTrendingAndPopularDishes(city).subscribe(
-      data => {
-        this.trendingArray = data['trending']
-        this.popularArray = data['popular']
-        this.healthArray = data['health']
-        console.log(data);
-      },
+  // public getDishesMethod(city){
+  //   this.frsService.getTrendingAndPopularDishes(city).subscribe(
+  //     data => {
+  //       this.trendingArray = data['trending']
+  //       this.popularArray = data['popular']
+  //       this.healthArray = data['health']
+  //       console.log(data);
+  //     },
       
-      error => {
-        console.log("Some error has occured"+JSON.stringify(error.errorMessage));
-      }
-    )
-  }
+  //     error => {
+  //       console.log("Some error has occured"+JSON.stringify(error.errorMessage));
+  //     }
+  //   )
+  // }
 
   numSequence(n: number): Array<number> {
     return Array(n);

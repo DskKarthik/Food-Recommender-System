@@ -31,18 +31,18 @@
                     <div class="col-lg-4 col-md-6" *ngFor="let product of dishList">
                         <div class="single-products-box">
                             <div class="products-image">
-                                <a [routerLink]="['/item-details', product.restId, product.dishId]">
-                                    <img src="assets/img/dishes/dish2.jpg" alt="image">
+                                <a [routerLink]="['/item-details', product.dish_id]">
+                                    <img src={{product.image_url}} alt="image">
                                 </a>
                             </div>
                             <div class="products-content">
-                                <h3><a [routerLink]="['/item-details', product.restId, product.dishId]"> {{ product.dishName }} </a></h3>
+                                <h3><a [routerLink]="['/item-details', product.dish_id]"> {{ product.name }} </a></h3>
                                 <div class="price">
-                                    <span class="old-price">Rs {{ product.dishActualCost }}</span>
-                                    <span class="new-price">Rs {{ product.dishDiscCost }}</span>
+                                    <span class="old-price">Rs {{ product.cost }}</span>
+                                    <span class="new-price">Rs {{ product.discount_cost }}</span>
                                 </div>
                                 <div class = "star-rating">
-                                    <span *ngFor="let n of numSequence(product.dishRating);"> 
+                                    <span *ngFor="let n of numSequence(roundRating(product.rating));"> 
                                         <i class='bx bxs-star'></i>
                                     </span>
                                 </div>

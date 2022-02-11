@@ -5,7 +5,7 @@
             <div class="main-responsive-menu">
                 <div class="logo">
                     <!-- <a  routerLink="/"> <img src="assets/img/logo/logo3.png" alt="image" style="width: 9rem;"> </a> -->
-                    <a class="navbar-brand" routerLink="/" ><h2 style="font-family:'Comic Sans MS', Courier, monospace">Food O Mania</h2></a>
+                    <a class="navbar-brand" routerLink="/" ><h2 style="font-family:'Comic Sans MS', Courier, monospace">The Food Expert</h2></a>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
     <div class="main-navbar">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light">
-                <a class="navbar-brand" routerLink="/" ><h2 style="font-family:'Comic Sans MS', Courier, monospace">Food O Mania</h2></a>
+                <a class="navbar-brand" routerLink="/" ><h2 style="font-family:'Comic Sans MS', Courier, monospace">The Food Expert</h2></a>
                 <!-- <a  routerLink="/"> <img src="assets/img/logo/logo3.png" alt="image"> </a> -->
                 <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                     <ul class="navbar-nav">
@@ -54,22 +54,22 @@
                             </div>
                         </div>
 
-                        <div routerLink="/user-profile" class="option-item" *ngIf="frsService.userName && !frsService.isAdmin" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; cursor: pointer;">
-                           Welcome {{frsService.userName}}
+                        <div routerLink="/user-profile" class="option-item" *ngIf="frsService.email && !frsService.isAdmin" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; cursor: pointer;">
+                           Welcome {{frsService.name}}
                         </div>
-                        <div routerLink="/user-profile" class="option-item" *ngIf="frsService.userName && frsService.isAdmin" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; cursor: pointer;">
-                            {{frsService.userName}} (Admin)
+                        <div routerLink="/user-profile" class="option-item" *ngIf="frsService.email && frsService.isAdmin" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; cursor: pointer;">
+                            {{frsService.name}} (Admin)
                          </div>
 
                         <div class="option-item" *ngIf="frsService.restName" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
                             {{frsService.restName}}
                          </div>
 
-                        <div class="option-item" *ngIf="!frsService.userName && !frsService.restName">
+                        <div class="option-item" *ngIf="!frsService.email && !frsService.restName">
                             <a routerLink="/login" class="default-btn">Login | Sign up</a>
                         </div>
 
-                        <div class="option-item" *ngIf="frsService.userName">
+                        <div class="option-item" *ngIf="frsService.email">
                             <a routerLink="" (click)="logout()" class="default-btn">Logout</a>
                         </div>
                     </div>

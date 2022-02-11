@@ -1,0 +1,77 @@
+<div class="page-banner-area item-bg4">
+    <div class="container">
+        <div class="page-banner-content">
+            <h2>{{frsService.name}}</h2>
+            <ul>
+                <!-- <li><a routerLink="/">Profile</a></li>
+                <li><a routerLink="/user-stats">Stats</a></li> -->
+                <li>Stats</li>    
+                <!-- <li><a routerLink="/user-stats" Stats></a></li> -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section class="fun-facts-area pb-70">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-fun-fact-box">
+                    <div class="icon">
+                        <i class="flaticon-checked"></i>
+                    </div>
+                    <h3><span>{{statsData.no_of_orders}}</span></h3>
+                    <p style="color: chocolate;">Total Orders </p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-fun-fact-box">
+                    <div class="icon">
+                        <i class="flaticon-happy"></i>
+                    </div>
+                    <h6><span>{{statsData.fav_dish}}</span></h6>
+                    <h6 style="color:darkgray"><span>{{statsData.fav_dish_rest}}</span></h6>
+                    <strong><p style="color: chocolate;">Favourite Dish</p></strong>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-fun-fact-box">
+                    <div class="icon">
+                        <i class="flaticon-technical-support"></i>
+                    </div>
+                    <h4 ><span>{{statsData.fav_rest}}</span></h4>
+                    <p style="color: chocolate;">Favourite Restaurant</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-fun-fact-box">
+                    <div class="icon">
+                        <i class="flaticon-trophy"></i>
+                    </div>
+                    <h3><span>{{statsData.rating_count}}</span></h3>
+                    <p style="color: chocolate;">Ratings Given</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <section>
+
+    <div style="display: block">
+        <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+
+</section> -->
